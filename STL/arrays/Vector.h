@@ -59,7 +59,7 @@ public:
 	};
 
     // constructor
-	Vector() : cap(2), size(0), arr(new Type[cap]) {}
+	Vector() : cap(1), size(0), arr(new Type[cap]) {}
     // move constructor
 	Vector(Vector<Type>&& obj) : cap(obj.cap), size(obj.size), arr(obj.arr) {
 		obj.arr = nullptr;
@@ -164,6 +164,10 @@ public:
 	iterator begin() { return iterator(arr); }
     // returns iterator position just beyond last value
 	iterator end() { return iterator(arr + size); }
+	// returns iterator position of last value
+	iterator rbegin() { return iterator(arr + (size - 1)); }
+    // returns iterator position just before first value
+	iterator rend() { return iterator(arr - 1); }
     // returns index plus the given offset
 	iterator index(const int i) { return iterator(arr + i); }
     // setter - returns value at given index, mutable

@@ -6,7 +6,7 @@
 
 template <typename Type>
 class ArrayList {
-	int cap;, size;
+	int cap, size;
 	Type* arr;
 
 	// resizes the arraylist to 150% capacity

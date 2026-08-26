@@ -6,32 +6,30 @@
 
 template <typename Type>
 class DynamicArray {
-	int cap;
+	int size;
 	Type* arr;
 
-	// resizes the vector to double capacity
+	// resizes the vector to double size
 	void resize() {
-		cap = cap + 1;
-		Type* temp = new Type[cap];
+		Type* temp = new Type[size + 1];
 		for (int i = 0; i < size; i++) temp[i] = arr[i];
 		delete[] arr;
 		arr = temp;
 	};
 public:
 	// constructor
-	DynamicArray() : cap(0), arr(nullptr) {}
+	DynamicArray() : size(0), arr(nullptr) {}
 	// move constructor
-	DynamicArray(DynamicArray<Type>&& obj) : cap(obj.cap), size(obj.size), arr(obj.arr) {
+	DynamicArray(DynamicArray<Type>&& obj) : size(obj.size), arr(obj.arr) {
 		obj.arr = nullptr;
-		obj.cap = 0;
 		obj.size = 0;
 	}
     // copy constructor
-	DynamicArray(const DynamicArray<Type>& obj) : cap(obj.cap), size(obj.size), arr(new Type[cap]) {
+	DynamicArray(const DynamicArray<Type>& obj) : size(obj.size), arr(new Type[size]) {
 		for (int i = 0; i < size; i++) { arr[i] = obj.arr[i]; }
 	}
     // initializer list constructor
-	DynamicArray(std::initializer_list<Type> list) : cap(list.size()), size(list.size()), arr(new Type[cap]) {
+	DynamicArray(std::initializer_list<Type> list) : size(list.size()), arr(new Type[size]) {
 		int i = 0;
 		for (const auto& item : list) {
 			arr[i] = item;
@@ -41,8 +39,8 @@ public:
 	// destructor
 	~DynamicArray() { delete[] arr; }
 	// inserts given value at end
-	void pushBack(Type value) {
-		if (size == cap) resze();
+	void push_back(Type value) {
+		resize();
 		arr[size] = value;
 		size++;
 	}
@@ -50,7 +48,7 @@ public:
 	void pop_back() { if (!empty()) size--; }
     // inserts value at given index
 	void insert(int index, const Type& value) {
-		if (size == cap) resize();
+		resize();
 		for (int i = 0; i < size - index; i++) {
 			arr[size - i] = arr[size - i - 1];
 		}
@@ -68,8 +66,6 @@ public:
 	void clear() { size = 0; }
     // returns size - number of elements currently contained
 	int Size() { return size; }
-    // returns capacity - number of elements that can be contained
-	int Capacity() { return cap; }
     // returns if DynamicArray is empty
 	bool empty() { return size == 0; }
 	// setter - returns value at given index, mutable
